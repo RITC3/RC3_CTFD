@@ -1,0 +1,82 @@
+{% extends "admin/base.html" %}
+
+{% block stylesheets %}
+    <style>
+        #login-container {
+            padding-left: 60px;
+            padding-right: 60px;
+        }
+
+        .done-row {
+            padding-top: 15px;
+            margin: 0px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <h1 class="text-center">{{ team.name }}</h1>
+    </div>
+
+    <div class="team-info">
+        <h2 id="team-place" class="text-center">
+            {% if team.place() %}
+                {{ team.place() }}
+                <small>place</small>
+            {% endif %}
+        </h2>
+        <h2 id="team-score" class="text-center">
+            {% if team.score() %}
+                {{ team.score() }}
+                <small>points</small>
+            {% endif %}
+        </h2>
+    </div>
+    <div class="container main-container">
+        <div class="row">
+            <div id="team-container" class="col-md-6 col-md-offset-3">
+                <table id="teamboard" class="table table-striped">
+                    <thead>
+                    <tr>
+                        <td class="text-center"><b>User</b>
+                        </td>
+                        <td class="text-center"><b>Score</b>
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td class="text-center"><a
+                                    href="{{ request.script_root }}/admin/user/{{ user.id }}">{{ user.name }}</a></td>
+                            <td class="text-center">{{ user.score() }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row top-buffer">
+            <div class="col-md-6 col-md-offset-3">
+                <hr>
+            </div>
+        </div>
+        <div class="row top-buffer">
+            <div class="col-md-6 col-md-offset-3">
+            <span class="input">
+                <input class="input-field" type="text" name="name" id="name-input"
+                       value="{{ request.url_root }}join/{{ secret }}" readonly/>
+                <label class="input-label" for="name-input">
+                    <span class="label-content">Team Link</span>
+                </label>
+            </span>
+            </div>
+        </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ request.script_root }}/static/{{ ctf_theme() }}/js/style.js"></script>
+{% endblock %}
+
