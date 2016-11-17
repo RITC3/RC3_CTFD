@@ -62,8 +62,81 @@
             </div>
         </div>
     </div>
+	</br>
+	<img class=banner-pic src="static/original/img/rc3Banner.png" width="90%" height="10%">
+	</br>
+	<h3>Begins Friday Nov 18th 9pm EST - Sunday Nov 20th 11:59:59 EST.</h3>
+    	<h3>Creating an account</h3>
+	<ol>
+		<li>Select "Registration" at the top</li>
+		<li>Enter a username, an e-mail, and, password for your account.</li>
+		<li>Please check your e-mail including the spam folder for your e-mail.</li>
+		<li>Select the link in the e-mail to verify your account</li>
 
-    {{ content | safe }}
+	</ol>
+	<h3> Here Be Rules </h3>
+				<ol>
+						<li> Team
+							<ul>
+								<li>5 people per Team no more.</li>
+							</ul>
+						</li>
+						<li> Cooperation
+								<ul>
+										<li>There should be no cooperation between teams. Sharing flags or
+										giving away hints is considered cheating.
+										</li>
+										<li>Teams are not allowed to give themselves or any other team an
+										unfair advantage</li>
+								</ul>
+						</li>
+						<li>ScoreBoard
+								<ul>
+										<li>Do not attack the infrastructure. Do not scan or attack the
+										scoreboard server, IRC server, or any other RIT or CTF
+										infrastructure.</li>
+								</ul>
+
+						</li>
+						<li>Sabotage
+								<ul>
+										<li>Do not attack other competing teams.</li>
+								</ul>
+						</li>
+						<li>Bruteforcing
+								<ul>
+										<li>Do not guess or bruteforce flags or answers.
+										</li>
+								</ul>
+						</li>
+						<li>Denial of Service
+								<ul>
+										<li>No challenges call for Denial of Service attacks, and any DOS
+										attacks are not allowed.
+										</li>
+								</ul>
+						</li>
+						<li>Challenges
+								<ul>
+										<li>SSH is off limits, unless specifically stated for a challenge.</li>
+										<ul><li>If we see SSH activity we will Ban the IP and if possible the team.</li></ul>
+										<li>Web challenges will state the IP and port that challenge is on.</li>
+										<li>Reversing challenges will state the IP and port that challenge is on.</li>
+										<li>If any team, by any means, is able to get root access or anyt
+										type of advantage, find the flag and leave the system alone. Do not
+										ruin the competition for other people.</li>
+										</ul>
+								</li>
+
+							<li>Contact Us
+								<ul>
+									E-mail: rc3admin@rc3.club
+								</ul>
+							</li>
+						</ol>
+	<h3><b>If you have issues signing up please clear cookies</b><h3>
+
+	{{ content | safe }}
 
 </div>
 <script src="{{ request.script_root }}/static/{{ ctf_theme() }}/js/vendor/jquery.min.js"></script>

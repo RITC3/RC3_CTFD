@@ -11,7 +11,7 @@ with open('.ctfd_secret_key', 'a+') as secret:
 
 ##### SERVER SETTINGS #####
 SECRET_KEY = key
-SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///ctfd.db'
+SQLALCHEMY_DATABASE_URI = "mysql://rc3CTFduserDB:FmeHQhDBrXGAiyW6KtAT6UugQ@rc3ctfmariadb.cn4v1bpwggpp.us-east-1.rds.amazonaws.com/CTFd" 
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 SESSION_TYPE = "filesystem"
 SESSION_FILE_DIR = "/tmp/flask_session"
