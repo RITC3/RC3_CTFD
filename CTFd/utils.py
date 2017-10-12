@@ -32,6 +32,26 @@ import json
 cache = Cache()
 
 
+class StreamToLogger(object):
+   """
+   Fake file-like stream object that redirects writes to a logger instance.
+   """
+   def __init__(self, logger, log_level=logging.INFO):
+      self.logger = logger
+      self.log_level = log_level
+      self.linebuf = ''
+
+   def write(self, buf):
+      for line in buf.rstrip().splitlines():
+         self.logger.log(self.log_level, line.rstrip())
+
+logging.basicConfig(
+   level=logging.DEBUG,
+   format='%(asctime)s:%(levelname)s:%(name)s:%(message)s',
+   filename="out.log",
+   filemode='a'
+)
+
 def init_logs(app):
     logger_keys = logging.getLogger('keys')
     logger_logins = logging.getLogger('logins')
@@ -402,7 +422,7 @@ def sendmail(addr, text):
         smtp = get_smtp(**data)
         msg = email.mime.text.MIMEText(text)
         msg['Subject'] = "Message from {0}".format(get_config('ctf_name'))
-        msg['From'] = 'noreply@ctfd.io'
+        msg['From'] = get_config('mailfrom_addr')
         msg['To'] = addr
 
         smtp.sendmail(msg['From'], [msg['To']], msg.as_string())
