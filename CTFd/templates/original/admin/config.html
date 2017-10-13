@@ -54,6 +54,13 @@
                 </li>
             </ul>
 
+            <div class="checkbox">
+                <label>
+                    <input id="use_mailserver" name="use_mailserver"
+                    type="checkbox" {% if use_mailserver %}checked{% endif %}>
+                    Use Mail Server 
+                </label>
+            </div>
             <div class="form-group">
                 <label for="start">Mail From Address:</label>
                 <input class="form-control" id='mailfrom_addr' name='mailfrom_addr' type='text'
@@ -103,6 +110,13 @@
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="mailgun">
+                    <div class="checkbox">
+                        <label>
+                            <input id="use_mailgun" name="use_mailgun"
+                            type="checkbox" {% if use_mailgun %}checked{% endif %}>
+                            Use Mail Gun
+                        </label>
+                    </div>
 
                     <div class="form-group">
                         <label for="start">Mailgun API Base URL:</label>

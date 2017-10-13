@@ -62,6 +62,8 @@ def admin_config():
             verify_emails = bool(request.form.get('verify_emails', None))
             mail_tls = bool(request.form.get('mail_tls', None))
             mail_ssl = bool(request.form.get('mail_ssl', None))
+            use_mailgun = bool(request.form.get('use_mailgun', None))
+            use_mailserver = bool(request.form.get('use_mailserver', None))
         except (ValueError, TypeError):
             view_challenges_unregistered = None
             view_scoreboard_if_authed = None
@@ -71,6 +73,8 @@ def admin_config():
             verify_emails = None
             mail_tls = None
             mail_ssl = None
+            use_mailgun = None
+            use_mailserver = None
         finally:
             view_challenges_unregistered = set_config('view_challenges_unregistered', view_challenges_unregistered)
             view_scoreboard_if_authed = set_config('view_scoreboard_if_authed', view_scoreboard_if_authed)
@@ -80,6 +84,8 @@ def admin_config():
             verify_emails = set_config('verify_emails', verify_emails)
             mail_tls = set_config('mail_tls', mail_tls)
             mail_ssl = set_config('mail_ssl', mail_ssl)
+            use_mailgun = set_config('use_mailgun', use_mailgun)
+            use_mailserver = set_config('use_mailserver', use_mailserver)
 
         mail_server = set_config("mail_server", request.form.get('mail_server', None))
         mail_port = set_config("mail_port", request.form.get('mail_port', None))
@@ -139,6 +145,8 @@ def admin_config():
 
     mail_tls = get_config('mail_tls')
     mail_ssl = get_config('mail_ssl')
+    use_mailgun = get_config('use_mailgun')
+    use_mailserver = get_config('use_mailserver')
 
     view_challenges_unregistered = get_config('view_challenges_unregistered')
     view_scoreboard_if_authed = get_config('view_scoreboard_if_authed')
@@ -182,6 +190,8 @@ def admin_config():
                            mail_password=mail_password,
                            mail_tls=mail_tls,
                            mail_ssl=mail_ssl,
+                           use_mailgun=use_mailgun,
+                           use_mailserver=use_mailserver,
                            view_challenges_unregistered=view_challenges_unregistered,
                            view_scoreboard_if_authed=view_scoreboard_if_authed,
                            prevent_registration=prevent_registration,

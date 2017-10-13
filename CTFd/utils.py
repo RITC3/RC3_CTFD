@@ -364,16 +364,14 @@ def can_send_mail():
 
 @cache.memoize()
 def mailgun():
-    if app.config.get('MAILGUN_API_KEY') and app.config.get('MAILGUN_BASE_URL'):
-        return True
-    if (get_config('mg_api_key') and get_config('mg_base_url')):
+    if (get_config('use_mailgun')):
         return True
     return False
 
 
 @cache.memoize()
 def mailserver():
-    if (get_config('mail_server') and get_config('mail_port')):
+    if (get_config('use_mailserver')):
         return True
     return False
 
