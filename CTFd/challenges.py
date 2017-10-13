@@ -21,12 +21,12 @@ def challenges_view():
     if not is_admin(): # User is not an admin
         if not ctftime():
             # It is not CTF time
-            if view_after_ctf(): # But we are allowed to view after the CTF ends
-                pass
-            else:  # We are NOT allowed to view after the CTF ends
-                errors.append('{} has ended'.format(ctf_name()))
-                return render_template('chals.html', errors=errors, start=int(start), end=int(end))
-                return redirect(url_for('views.static_html'))
+            if start > time.time():  # We are NOT allowed to view after the CTF ends
+                errors.append('{} challenges will be posted soon!'.format(ctf_name()))
+            elif not view_after_ctf():
+                errors.append('{} has ended.'.format(ctf_name()))
+            return render_template('chals.html', errors=errors, start=int(start), end=int(end))
+
         if get_config('verify_emails') and not is_verified(): # User is not confirmed
             return redirect(url_for('auth.confirm_user'))
     if user_can_view_challenges(): # Do we allow unauthenticated users?
