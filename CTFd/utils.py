@@ -11,6 +11,7 @@ from socket import inet_aton, inet_ntoa, socket
 from struct import unpack, pack, error
 from sqlalchemy.engine.url import make_url
 from sqlalchemy import create_engine
+from email.mime.text import MIMEText
 
 import time
 import datetime
@@ -23,7 +24,6 @@ import sys
 import re
 import time
 import smtplib
-import email
 import tempfile
 import subprocess
 import urllib
@@ -386,7 +386,7 @@ def get_smtp(host, port, username=None, password=None, TLS=None, SSL=None):
     return smtp
 
 
-def sendmail(addr, text):
+def sendmail(addr, mailtext):
     if mailgun():
         ctf_name = get_config('ctf_name')
         mg_api_key = get_config('mg_api_key') or app.config.get('MAILGUN_API_KEY')
@@ -418,7 +418,7 @@ def sendmail(addr, text):
             data['SSL'] = get_config('mail_ssl')
 
         smtp = get_smtp(**data)
-        msg = email.mime.text.MIMEText(text)
+        msg = MIMEText(mailtext)
         msg['Subject'] = "Message from {0}".format(get_config('ctf_name'))
         msg['From'] = get_config('mailfrom_addr')
         msg['To'] = addr
