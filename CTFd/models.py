@@ -29,40 +29,44 @@ def long2ip(ip_int):
 
 
 def get_standings(admin=False, count=None):
-    score = db.func.sum(Challenges.value).label('score')
-    date = db.func.max(Solves.date).label('date')
-    scores = db.session.query(Solves.userid.label('userid'), score, date).join(Challenges).group_by(Solves.userid)
-    awards = db.session.query(Awards.userid.label('userid'), db.func.sum(Awards.value).label('score'),
-                              db.func.max(Awards.date).label('date')) \
-        .group_by(Awards.userid)
-    results = union_all(scores, awards).alias('results')
-    sumscores = db.session.query(results.columns.userid, db.func.sum(results.columns.score).label('score'),
-                                 db.func.max(results.columns.date).label('date')) \
-        .group_by(results.columns.userid).subquery()
-    if admin:
-        standings_query = db.session.query(Users.teamid.label('teamid'),
-                                           Teams.name.label('name'),
-                                           Teams.banned,
-                                           db.func.sum(sumscores.columns.score).label('score')) \
-            .join(sumscores, Users.id == sumscores.columns.userid) \
-            .join(Teams, Users.teamid == Teams.id) \
-            .filter(Users.banned == False) \
-            .order_by(score.desc(), sumscores.columns.date) \
-            .group_by(Teams.name)
-    else:
-        standings_query = db.session.query(Users.teamid.label('teamid'),
-                                           Teams.name.label('name'),
-                                           db.func.sum(sumscores.columns.score).label('score')) \
-            .join(sumscores, Users.id == sumscores.columns.userid) \
-            .join(Teams, Users.teamid == Teams.id) \
-            .filter(Teams.banned == False) \
-            .order_by(score.desc(), sumscores.columns.date) \
-            .group_by(Teams.name)
-    if count is None:
-        standings = standings_query.all()
-    else:
-        standings = standings_query.limit(count).all()
-    db.session.close()
+    standings = []
+    q = db.session.query(Solves).count()
+    if( q > 0):
+        score = db.func.sum(Challenges.value).label('score')
+        date = db.func.max(Solves.date).label('date')
+        scores = db.session.query(Solves.userid.label('userid'), score, date).join(Challenges).group_by(Solves.userid)
+        print(score)
+        awards = db.session.query(Awards.userid.label('userid'), db.func.sum(Awards.value).label('score'),
+                                  db.func.max(Awards.date).label('date')) \
+            .group_by(Awards.userid)
+        results = union_all(scores, awards).alias('results')
+        sumscores = db.session.query(results.columns.userid, db.func.sum(results.columns.score).label('score'),
+                                     db.func.max(results.columns.date).label('date')) \
+            .group_by(results.columns.userid).subquery()
+        if admin:
+            db.session.query(Users.teamid.label('teamid'),
+                                               Teams.name.label('name'),
+                                               Teams.banned,
+                                               db.func.sum(sumscores.columns.score).label('score')) \
+                .join(sumscores, Users.id == sumscores.columns.userid) \
+                .join(Teams, Users.teamid == Teams.id) \
+                .filter(Users.banned == False) \
+                .order_by(score.desc(), sumscores.columns.date) \
+                .group_by(Teams.name)
+        else:
+            standings_query = db.session.query(Users.teamid.label('teamid'),
+                                               Teams.name.label('name'),
+                                               db.func.sum(sumscores.columns.score).label('score')) \
+                .join(sumscores, Users.id == sumscores.columns.userid) \
+                .join(Teams, Users.teamid == Teams.id) \
+                .filter(Teams.banned == False) \
+                .order_by(score.desc(), sumscores.columns.date) \
+                .group_by(Teams.name)
+        if count is None:
+            standings = standings_query.all()
+        else:
+            standings = standings_query.limit(count).all()
+        db.session.close()
     return standings
 
 db = SQLAlchemy()
