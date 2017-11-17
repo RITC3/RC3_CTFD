@@ -148,7 +148,9 @@ table{
     text-transform:uppercase;
     padding:8px 20px;
 }
-
+.side-margins{
+    margin: 0 15%;
+}
 .btn-outlined {
     border-radius: 0;
     -webkit-transition: all 0.3s;
