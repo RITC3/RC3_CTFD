@@ -41,7 +41,7 @@ def get_standings(admin=False, count=None):
             .group_by(Awards.userid)
         results = union_all(scores, awards).alias('results')
         sumscores = db.session.query(results.columns.userid, db.func.sum(results.columns.score).label('score'),
-                                     db.func.max(results.columns.date).label('date')) \
+                                     db.func.max(results.columns.date).label('date'), results.columns.score.label('rawscore')) \
             .group_by(results.columns.userid).subquery()
         if admin:
             db.session.query(Users.teamid.label('teamid'),
@@ -51,7 +51,7 @@ def get_standings(admin=False, count=None):
                 .join(sumscores, Users.id == sumscores.columns.userid) \
                 .join(Teams, Users.teamid == Teams.id) \
                 .filter(Users.banned == False) \
-                .order_by(score.desc(), sumscores.columns.date) \
+                .order_by(sumscores.columns.rawscore.desc(), sumscores.columns.date) \
                 .group_by(Teams.name)
         else:
             standings_query = db.session.query(Users.teamid.label('teamid'),
@@ -60,7 +60,7 @@ def get_standings(admin=False, count=None):
                 .join(sumscores, Users.id == sumscores.columns.userid) \
                 .join(Teams, Users.teamid == Teams.id) \
                 .filter(Teams.banned == False) \
-                .order_by(score.desc(), sumscores.columns.date) \
+                .order_by(sumscores.columns.rawscore.desc(), sumscores.columns.date) \
                 .group_by(Teams.name)
         if count is None:
             standings = standings_query.all()

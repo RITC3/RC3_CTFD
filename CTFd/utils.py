@@ -228,36 +228,37 @@ def view_after_ctf():
 def ctftime():
     """ Checks whether it's CTF time or not. """
 
-    start = get_config("start")
-    end = get_config("end")
-
-    if start:
-        start = int(start)
-    else:
-        start = 0
-    if end:
-        end = int(end)
-    else:
-        end = 0
-
-    if start and end:
-        if start < time.time() < end:
-            # Within the two time bounds
-            return True
-
-    if start < time.time() and end == 0:
-        # CTF starts on a date but never ends
-        return True
-
-    if start == 0 and time.time() < end:
-        # CTF started but ends at a date
-        return True
-
-    if start == 0 and end == 0:
-        # CTF has no time requirements
-        return True
-
     return False
+    #start = get_config("start")
+    #end = get_config("end")
+
+    #if start:
+    #    start = int(start)
+    #else:
+    #    start = 0
+    #if end:
+    #    end = int(end)
+    #else:
+    #    end = 0
+
+    #if start and end:
+    #    if start < time.time() < end:
+    #        # Within the two time bounds
+    #        return True
+
+    #if start < time.time() and end == 0:
+    #    # CTF starts on a date but never ends
+    #    return True
+
+    #if start == 0 and time.time() < end:
+    #    # CTF started but ends at a date
+    #    return True
+
+    #if start == 0 and end == 0:
+    #    # CTF has no time requirements
+    #    return True
+
+    #return False
 
 
 def ctf_started():
@@ -265,9 +266,7 @@ def ctf_started():
 
 
 def ctf_ended():
-    if int(get_config("end") or 0):
-        return time.time() > int(get_config("end") or 0)
-    return False
+    return True
 
 
 def user_can_view_challenges():
